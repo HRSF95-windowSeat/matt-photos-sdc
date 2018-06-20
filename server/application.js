@@ -27,4 +27,16 @@ app.get('/photos/restaurant/:restaurantId/photos', (req, res) => {
   }
 });
 
+app.post('/photos/restaurant/:restaurantId/photos', (req, res) => {
+  res.end();
+});
+
+app.put('/photos/restaurant/:restaurantId/photos', (req, res) => {
+  res.end();
+});
+
+app.delete('/photos/restaurant/:restaurantId/photos', (req, res) => {
+  res.end();
+});
+
 module.exports = app;
