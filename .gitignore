@@ -1,6 +1,7 @@
 ## MAC files ##
 .DS_Store
 restaurants.txt
+data.txt
 
 ## NPM ##
 npm
