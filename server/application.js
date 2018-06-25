@@ -2,8 +2,6 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
 const db = require('../db/index');
-const fs = require('file-system');
-const dg = require('../dataGenerator.js');
 
 const app = express();
 
@@ -40,7 +38,5 @@ app.put('/photos/restaurant/:restaurantId/photos', (req, res) => {
 app.delete('/photos/restaurant/:restaurantId/photos', (req, res) => {
   res.end();
 });
-
-dg.writeRestaurantChunk(10, 0);
 
 module.exports = app;
