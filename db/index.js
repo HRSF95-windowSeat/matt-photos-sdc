@@ -1,23 +1,26 @@
-const mysql = require('mysql');
+const { Pool, Client } = require('pg');
+const client = new Client();
 
-// const connection = mysql.createConnection({
-//   host: process.env.RDS_HOSTNAME,
-//   port: process.env.RDS_PORT,
-//   database: process.env.RDS_DB_NAME,
-//   user: process.env.RDS_USERNAME,
-//   password: process.env.RDS_PASSWORD,
-// });
+const pool = new Pool({ host: 'localhost', user: 'strom', database: 'ot' });
 
-// connection.connect();
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
+});
 
 const getPhotos = (restaurantID, dataSend) => {
-  // connection.query(`SELECT id, url FROM cavatable_photos WHERE restaurant_id = ${restaurantID}`, (err, results) => {
-  //   if (err) {
-  //     dataSend(err, null);
-  //   } else {
-  //     dataSend(null, results);
-  //   }
-  // });
+  pool.connect((err, client, done) => {
+    if (err) throw err;
+    client.query(`SELECT restaurantid, title FROM photos WHERE restaurantid = ${restaurantID}`, (err, res) => {
+      done();
+      if (err) {
+        dataSend(err, null);
+      } else {
+        // console.log(res);
+        dataSend(null, res);
+      }
+    });
+  });
 };
 
 module.exports = {

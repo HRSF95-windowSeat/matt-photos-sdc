@@ -67,16 +67,17 @@ class PhotoTable extends React.Component {
   servePhotos() {
     axios.get(`/photos/restaurant/${this.props.match.params.restaurantId}/photos`)
       .then((response) => {
+        console.log(response.data.rows);
         let conditionalURL;
 
-        if (response.data[8] === undefined) {
+        if (response.data.rows[8] === undefined) {
           conditionalURL = null;
         } else {
-          conditionalURL = response.data[8].url;
+          conditionalURL = response.data.rows[8].url;
         }
         this.setState({
-          photos: response.data,
-          photoCount: response.data.length,
+          photos: response.data.rows,
+          photoCount: response.data.rows.length,
           photoURL: conditionalURL,
         });
       });
