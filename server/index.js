@@ -48,4 +48,5 @@ app.delete('/photos/restaurant/:restaurantId/photos', (req, res) => {
 });
 
 app.listen(port, console.log(`Listening on ${port}`));
-// module.exports = app;
+
+module.exports = app;
