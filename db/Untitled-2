@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  photos:
+    build: .
+    depends_on:
+      - 'database'
+    ports: 
+      - '3030:3004'
+    environment:
+      - DB_HOST=database
+      - DB_USER=postgres
+      - DB_DB=ot
+      
+
+  database:
+    image: postgres:latest
+    ports:
+      - '5432:5432'

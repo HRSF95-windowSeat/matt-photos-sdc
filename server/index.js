@@ -1,4 +1,4 @@
-require('newrelic');
+// require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -12,40 +12,81 @@ app.use('/restaurant/:restaurantId', express.static(path.join(__dirname, '../pub
 app.use('/photosBundle', express.static(path.join(__dirname, '../public/dist/bundle.js')));
 app.use('/photosBundleCSS', express.static(path.join(__dirname, '../public/style/main.css')));
 
-app.use('/', function(req,res,next) {
-  console.log(req.url);
-  next();
-});
+// app.use('/', function(req,res,next) {
+//   console.log(req.url);
+//   next();
+// });
 
-app.get('/restaurant/:restaurantId/photos', (req, res) => {
-  console.log('hit');
+app.get('/photos/restaurant/:restaurantId/photos', (req, res) => {
+  console.log('get was hit');
   const restaurantId = parseInt(req.params.restaurantId, 10);
   if (typeof restaurantId !== 'number') {
     res.status(400).send('Bad input, must be a valid ID number.');
   } else {
     db.getPhotos(restaurantId, (err, data) => {
       if (err) {
-        res.status(500).send('Error: could not retrieve data from db.');
         console.log(err);
+        res.status(500).send('Error: could not retrieve data from db.');
       } else {
-        // console.log(data);
+        console.log(data);
         res.status(200).send(data);
       }
     });
   }
 });
 
-app.post('/photos/restaurant/:restaurantId/photos', (req, res) => {
-  res.end();
+app.post('/restaurant/:restaurantId/photos', (req, res) => {
+  console.log('post was hit');
+  const restaurantId = parseInt(req.params.restaurantId, 10);
+  if (typeof restaurantId !== 'number') {
+    res.status(400).send('Bad input, must be a valid ID number.');
+  } else {
+    db.addPhotos(restaurantId, (err, data) => {
+      if (err) {
+        res.status(500).send('Error: could not retrieve data from db.');
+        console.log(err);
+      } else {
+        res.status(200).send(data);
+      }
+    });
+  }
 });
 
-app.put('/photos/restaurant/:restaurantId/photos', (req, res) => {
-  res.end();
+app.put('/restaurant/:restaurantId/photos', (req, res) => {
+  console.log('put was hit');
+  const restaurantId = parseInt(req.params.restaurantId, 10);
+  if (typeof restaurantId !== 'number') {
+    res.status(400).send('Bad input, must be a valid ID number.');
+  } else {
+    db.updatePhotos(restaurantId, (err, data) => {
+      if (err) {
+        res.status(500).send('Error: could not retrieve data from db.');
+        console.log(err);
+      } else {
+        res.status(200).send(data);
+      }
+    });
+  }
 });
 
-app.delete('/photos/restaurant/:restaurantId/photos', (req, res) => {
-  res.end();
+app.delete('/restaurant/:restaurantId/photos', (req, res) => {
+  console.log('delete was hit');
+  const restaurantId = parseInt(req.params.restaurantId, 10);
+  if (typeof restaurantId !== 'number') {
+    res.status(400).send('Bad input, must be a valid ID number.');
+  } else {
+    db.deletePhotos(restaurantId, (err, data) => {
+      if (err) {
+        res.status(500).send('Error: could not retrieve data from db.');
+        console.log(err);
+      } else {
+        res.status(200).send(data);
+      }
+    });
+  }
 });
+
+// app.listen(port, console.log(`Listening on ${port}`));
 
 app.listen(port, console.log(`Listening on ${port}`));
 
